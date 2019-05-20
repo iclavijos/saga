@@ -1,0 +1,35 @@
+
+logging:
+  level:
+    ROOT: INFO
+    com.mimacom: DEBUG
+
+spring:
+  cloud:
+    stream:
+      bindings:
+        input:
+          destination: provisioning.channel
+          group: warehouse-process
+          binder: rabbit1
+      binders:
+        rabbit1:
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                host: localhost
+                port: 7001
+                username: guest
+                password: guest
+
+  h2:
+    console:
+      enabled: true
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+server:
+  port: 8088
