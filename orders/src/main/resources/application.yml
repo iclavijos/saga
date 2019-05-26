@@ -1,0 +1,16 @@
+
+logging:
+  level:
+    ROOT: INFO
+    com.mimacom: DEBUG
+
+  h2:
+    console:
+      enabled: true
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+server:
+  port: 8080
