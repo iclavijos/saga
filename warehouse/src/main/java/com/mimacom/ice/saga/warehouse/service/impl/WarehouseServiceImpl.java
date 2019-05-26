@@ -6,7 +6,6 @@ import com.mimacom.ice.saga.warehouse.model.StockItem;
 import com.mimacom.ice.saga.warehouse.repository.CatalogItemRepository;
 import com.mimacom.ice.saga.warehouse.repository.StockItemRepository;
 import com.mimacom.ice.saga.warehouse.service.WarehouseService;
-import com.sun.org.apache.xml.internal.resolver.Catalog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Sort;
