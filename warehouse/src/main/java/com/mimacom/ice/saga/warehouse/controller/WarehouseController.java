@@ -1,30 +1,36 @@
 package com.mimacom.ice.saga.warehouse.controller;
 
-import com.mimacom.ice.saga.warehouse.dto.ItemDTO;
+import com.mimacom.ice.saga.warehouse.aggregate.Warehouse;
+import com.mimacom.ice.saga.warehouse.queries.GetWarehouseQuery;
 import com.mimacom.ice.saga.warehouse.service.WarehouseService;
+import org.axonframework.queryhandling.QueryGateway;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @RestController("/warehouse")
 public class WarehouseController {
 
-    private final WarehouseService warehouseService;
+    private final Logger logger = LoggerFactory.getLogger(WarehouseController.class);
 
-    public WarehouseController(WarehouseService service) {
+    private final WarehouseService warehouseService;
+    private final QueryGateway queryGateway;
+
+    public WarehouseController(WarehouseService service, QueryGateway queryGateway) {
         this.warehouseService = service;
+        this.queryGateway = queryGateway;
     }
 
-    @GetMapping
-    public List<ItemDTO> getWarehouseStatus() {
-        return warehouseService.getWarehouseStatus().stream().map(i -> {
-            ItemDTO item = new ItemDTO();
-            item.setProductName(warehouseService.getItem(i.getProductReference()).getProductName());
-            item.setProductReference(i.getProductReference());
-            item.setStock(i.getStock());
-            return item;
-        }).collect(Collectors.toList());
+    @GetMapping("/{id}")
+    public Warehouse getWarehouseStatus(@PathVariable Long id) throws InterruptedException, ExecutionException {
+        logger.info("Received request for warehouse -{}- status", id);
+        CompletableFuture<Warehouse> future = queryGateway.query(new GetWarehouseQuery(id), Warehouse.class);
+        return future.get();
     }
 }

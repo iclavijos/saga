@@ -6,5 +6,7 @@ import java.util.concurrent.CompletableFuture;
 
 public interface OrderService {
 
+    Order getOrder(String orderId);
+
     CompletableFuture<String> createOrder(Order order);
 }

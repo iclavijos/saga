@@ -1,16 +1,15 @@
 package com.mimacom.ice.saga.warehouse.service;
 
-import com.mimacom.ice.saga.warehouse.event.ReStockEvent;
+import com.mimacom.ice.saga.warehouse.aggregate.Warehouse;
 import com.mimacom.ice.saga.warehouse.model.CatalogItem;
-import com.mimacom.ice.saga.warehouse.model.StockItem;
+import com.mimacom.ice.saga.warehouse.queries.GetWarehouseQuery;
 
-import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 
 public interface WarehouseService {
 
-    void processNewStock(ReStockEvent newStock);
+    Warehouse getWarehouseStatus(GetWarehouseQuery query) throws ExecutionException, InterruptedException;
 
-    List<StockItem> getWarehouseStatus();
-
-    CatalogItem getItem(String productReference);
+    Optional<CatalogItem> getItem(String productReference);
 }

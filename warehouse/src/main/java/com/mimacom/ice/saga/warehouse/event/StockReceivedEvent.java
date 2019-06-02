@@ -1,9 +1,23 @@
 package com.mimacom.ice.saga.warehouse.event;
 
-public class ReStockEvent {
+import org.axonframework.modelling.command.AggregateIdentifier;
 
+public class StockReceivedEvent {
+
+    @AggregateIdentifier
+    private Long warehouseId;
     private String productReference;
     private Integer quantity;
+
+    public StockReceivedEvent() {
+
+    }
+
+    public StockReceivedEvent(Long warehouseId, String productReference, Integer quantity) {
+        this.warehouseId = warehouseId;
+        this.productReference = productReference;
+        this.quantity = quantity;
+    }
 
     public String getProductReference() {
         return productReference;
@@ -23,7 +37,7 @@ public class ReStockEvent {
 
     @Override
     public String toString() {
-        return "ReStockEvent{" +
+        return "StockReceivedEvent{" +
                 "productReference='" + productReference + '\'' +
                 ", quantity=" + quantity +
                 '}';

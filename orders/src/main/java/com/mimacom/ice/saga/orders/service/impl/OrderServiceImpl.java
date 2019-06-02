@@ -4,6 +4,7 @@ import com.mimacom.ice.saga.orders.command.CreateOrderCommand;
 import com.mimacom.ice.saga.orders.model.Order;
 import com.mimacom.ice.saga.orders.service.OrderService;
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,16 +16,23 @@ public class OrderServiceImpl implements OrderService {
 
     private AtomicLong ordersCounter = new AtomicLong();
 
-    private final CommandGateway gateway;
+    private final CommandGateway commandGateway;
+    private final QueryGateway queryGateway;
 
-    public OrderServiceImpl(CommandGateway gateway) {
-        this.gateway = gateway;
+    public OrderServiceImpl(CommandGateway commandGateway, QueryGateway queryGateway) {
+        this.commandGateway = commandGateway;
+        this.queryGateway = queryGateway;
+    }
+
+    @Override
+    public Order getOrder(String orderId) {
+        return null;
     }
 
     @Override
     public CompletableFuture<String> createOrder(Order order) {
 
-        return gateway.send(new CreateOrderCommand(
+        return commandGateway.send(new CreateOrderCommand(
                 String.format("ORD%05d", ordersCounter.incrementAndGet()),
                 order.getCustomerName(),
                 LocalDateTime.now(),

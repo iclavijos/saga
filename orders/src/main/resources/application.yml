@@ -4,13 +4,13 @@ logging:
     ROOT: INFO
     com.mimacom: DEBUG
 
+server:
+  port: 8080
+
+spring:
+  application:
+    name: orders-service
+
   h2:
     console:
       enabled: true
-  jpa:
-    show-sql: false
-    properties:
-      hibernate:
-        format_sql: true
-server:
-  port: 8080
