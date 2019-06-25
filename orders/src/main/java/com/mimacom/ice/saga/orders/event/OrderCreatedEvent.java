@@ -1,12 +1,14 @@
 package com.mimacom.ice.saga.orders.event;
 
 import com.mimacom.ice.saga.orders.model.OrderItem;
+import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 public class OrderCreatedEvent {
 
+    @TargetAggregateIdentifier
     private final String orderId;
     private final String customerName;
     private final LocalDateTime orderDate;

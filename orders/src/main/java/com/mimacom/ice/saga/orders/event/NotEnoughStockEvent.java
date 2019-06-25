@@ -1,10 +1,10 @@
 package com.mimacom.ice.saga.orders.event;
 
-public class OrderPreparedEvent {
+public class NotEnoughStockEvent {
 
     private String orderId;
 
-    public OrderPreparedEvent(String orderId) {
+    public NotEnoughStockEvent(String orderId) {
         this.orderId = orderId;
     }
 

@@ -1,4 +1,4 @@
-package com.mimacom.ice.saga.orders.event;
+package com.mimacom.ice.saga.warehouse.event;
 
 public class OrderPreparedEvent {
 

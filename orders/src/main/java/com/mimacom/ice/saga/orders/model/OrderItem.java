@@ -1,9 +1,30 @@
 package com.mimacom.ice.saga.orders.model;
 
+import javax.persistence.*;
+
+@Entity
 public class OrderItem {
 
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @Column
     private String productReference;
+    @Column
     private Integer quantity;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
+    private Order order;
+
+    public OrderItem(String productReference, Integer quantity) {
+        this.productReference = productReference;
+        this.quantity = quantity;
+    }
+
+    public OrderItem() {
+    }
 
     @Override
     public String toString() {
@@ -29,11 +50,19 @@ public class OrderItem {
         this.quantity = quantity;
     }
 
-    public OrderItem(String productReference, Integer quantity) {
-        this.productReference = productReference;
-        this.quantity = quantity;
+    public Long getId() {
+        return id;
     }
 
-    public OrderItem() {
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }

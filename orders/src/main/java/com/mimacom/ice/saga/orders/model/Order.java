@@ -1,20 +1,38 @@
 package com.mimacom.ice.saga.orders.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mimacom.ice.saga.orders.enums.OrderStatus;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Entity(name="CustomerOrder")
+@Table(name = "customer_order")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Order {
 
+    @Id
     private String id;
+    @Column
     private String customerName;
+    @Column
     private LocalDateTime orderDate;
+    @Column
     private LocalDateTime preparedDate;
+    @Column
     private LocalDateTime shippedDate;
+    @Column
     private LocalDateTime deliveredDate;
+    @Column
     private String deliveryCompany;
+    @Column
     private OrderStatus status;
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.EAGER
+    )
     private List<OrderItem> items;
 
     public Order() {

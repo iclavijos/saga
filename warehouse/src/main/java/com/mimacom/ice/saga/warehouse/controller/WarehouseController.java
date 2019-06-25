@@ -8,9 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -27,10 +27,15 @@ public class WarehouseController {
         this.queryGateway = queryGateway;
     }
 
-    @GetMapping("/{id}")
-    public Warehouse getWarehouseStatus(@PathVariable Long id) throws InterruptedException, ExecutionException {
-        logger.info("Received request for warehouse -{}- status", id);
-        CompletableFuture<Warehouse> future = queryGateway.query(new GetWarehouseQuery(id), Warehouse.class);
+    @GetMapping
+    public Warehouse getWarehouseStatus() throws InterruptedException, ExecutionException {
+        logger.info("Received request for warehouse status");
+        CompletableFuture<Warehouse> future = queryGateway.query(new GetWarehouseQuery(1L), Warehouse.class);
         return future.get();
+    }
+
+    @PostMapping("/{orderId}")
+    public String prepareOrder(@PathVariable String orderId) {
+        return "";
     }
 }

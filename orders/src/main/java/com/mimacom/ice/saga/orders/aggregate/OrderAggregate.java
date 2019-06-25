@@ -11,11 +11,13 @@ import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Aggregate
+@Component
 public class OrderAggregate {
 
     private static final Logger logger = LoggerFactory.getLogger(OrderAggregate.class);
@@ -36,6 +38,7 @@ public class OrderAggregate {
 
     @CommandHandler
     public OrderAggregate(CreateOrderCommand command) {
+        logger.info("Create order command: {}", command);
         AggregateLifecycle.apply(new OrderCreatedEvent(
                 command.getOrderId(),
                 command.getCustomerName(),
@@ -44,7 +47,7 @@ public class OrderAggregate {
     }
 
     @EventSourcingHandler
-    public void onEvent(OrderCreatedEvent event) {
+    public void orderCreated(OrderCreatedEvent event) {
         logger.info("Order created event received: {}", event);
         this.orderId = event.getOrderId();
         this.customerName = event.getCustomerName();
@@ -52,5 +55,7 @@ public class OrderAggregate {
         this.items = event.getItems();
         this.status = OrderStatus.ACCEPTED;
     }
+
+
 
 }
